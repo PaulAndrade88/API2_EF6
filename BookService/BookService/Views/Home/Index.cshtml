@@ -1,0 +1,134 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+}
+
+<div class="page-header">
+    <h1>Book Administration Tool</h1>
+</div>
+
+<div class="row">    
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Books</h2>
+            </div>
+            <div class="panel-body">
+                <ul class="list-unstyled" data-bind="foreach: books">
+                    <li>
+                        <strong><span data-bind="text: AuthorName"></span></strong>: <span data-bind="text: Title"></span>
+                        <small><a id="lnkDetails" href="#" data-bind="click: $parent.getBookDetail">Details</a></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="divError" style="display:none !important" class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    </div>
+
+    
+    <div id="divDetails" style="display:none !important" class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading" data-bind="with: ViewModel">
+                <h2 class="panel-title">Detail</h2>
+                <small><a href="#" data-bind="click: $parent.deleteBook">Delete</a></small>
+            </div>
+            <table id="tDetails" class="table" data-bind="with: detail()">
+                <tr style="display:none !important">
+                    <td>Author</td>
+                    <td><select data-bind="options:authors, optionsText: 'Name', optionsValue: 'Id', value: authorSelectedId.Id, enable: false"></select></td>
+                </tr>
+                <tr><td>Title</td><td><input data-bind="value: Title, enable: false" /></td></tr>
+                <tr><td>Year</td><td><input data-bind="value: Year, enable: false" /></td></tr>
+                <tr><td>Genre</td><td><input data-bind="value: Genre,enable: false" /></td></tr>
+                <tr><td>Price</td><td><input data-bind="value: Price, enable: false" /></td></tr>
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateWindow">Edit Info</button>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>                
+    
+    
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Add Book</h2>
+            </div>
+
+            <div class="panel-body">
+                <form class="form-horizontal" data-bind="submit: addBook">
+                    <div class="form-group">
+                        <label for="inputAuthor" class="col-sm-2 control-label">Author</label>
+                        <div class="col-sm-10">
+                            <select data-bind="options:authors, optionsText: 'Name', value: newBook.Author"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" data-bind="with: newBook">
+                        <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputTitle" data-bind="value:Title" />
+                        </div>
+
+                        <label for="inputYear" class="col-sm-2 control-label">Year</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="inputYear" data-bind="value:Year" />
+                        </div>
+
+                        <label for="inputGenre" class="col-sm-2 control-label">Genre</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputGenre" data-bind="value:Genre" />
+                        </div>
+
+                        <label for="inputPrice" class="col-sm-2 control-label">Price</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="inputPrice" data-bind="value:Price" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--ModalEditWindow-->
+    <div class="modal" id="updateWindow" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times</button>
+                    <h4 class="modal-title">Book details</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" data-bind="submit: editBook">
+                        <div class="form-group" data-bind="with: detail()">
+
+                            <span class="col-sm-3 control-label">Author: </span>
+                            <select class="form-control" data-bind="options:authors, optionsText: 'Name', optionsValue: 'Id', value: authorSelectedId.Id"></select>
+
+                            <span class="col-sm-3 control-label">Title: </span>
+                            <input class="form-control" data-bind="value: Title" />
+
+                            <span class="col-sm-3 control-label">Year: </span>
+                            <input class="form-control" data-bind="value: Year" />
+
+                            <span class="col-sm-3 control-label">Genre: </span>
+                            <input class="form-control" data-bind="value: Genre" />
+
+                            <span class="col-sm-3 control-label">Price: </span>
+                            <input class="form-control" data-bind="value: Price" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
